@@ -1,10 +1,29 @@
-def menu2(isActived):
+import mysql.connector
+
+
+def conectar():
+    global my_db, cursor
+    my_db = mysql.connector.connect(
+        host = 'localhost',
+        port = 3306,
+        user = 'root',
+        password = '',
+        database = 'tienda'
+    )
+    cursor = my_db.cursor()
+
+
+
+def menu2(isActived, cursor):
     while isActived == True:
         print(f'Bienvenido, {nombre.title()}.')
         opcMenu2 = input('Seleccione una opción: \n 1.1 Ver usuarios \n 1.2 Modificar usuarios \n 1.3 Eliminar usuarios \n'+ '2.1 Crear producto \n 2.2 Ver productos \n 2.3 Buscar producto \n' + '3.1 Registrar ventas \n 3.2 Imprimir factura de venta \n 3.3 Ver compras por cliente \n'+'4. Salir \n')
         match opcMenu2:
             case '1.1':
                 print('Listado de usuarios')
+                cursor.execute('SHOW TABLES')
+                for x in cursor:
+                    print(x)
                 print('------')
                 print('------')
                 print('------')
@@ -52,10 +71,11 @@ while opcion != 3:
             case 1:
                 print('Formulario')
                 nombre = input('Digite su nombre: ')
+                conectar()
                 pass
             case 2:
                 print('Login')
-                menu2(True)
+                menu2(True, cursor)
                 pass
             case 3:
                 print('Salir')
